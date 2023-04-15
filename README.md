@@ -13,7 +13,7 @@ Let's build the space invaders in Python
 ## Run the game
 
 ### Local Run
-`python3 game.py`
-
+`python3 game.py` 
+ 
 ### Web
 `pygbag .\space_invaders`

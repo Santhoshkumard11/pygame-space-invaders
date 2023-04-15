@@ -13,4 +13,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 # Start the application - this is for dev purpose only
-CMD ["pygbag", "/opt/sandy_inspires/space_invaders/"]
+CMD ["pygbag", '--title "Sandy Inspires - Space Invaders" --app_name "Sandy Inspires - Space Invaders"' ,"/opt/sandy_inspires/space_invaders"]

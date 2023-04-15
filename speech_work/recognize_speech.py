@@ -2,6 +2,7 @@
 import azure.cognitiveservices.speech as speech_sdk
 import logging
 import os
+import asyncio
 
 # user
 from config import set_logger
@@ -30,10 +31,11 @@ class RecognizeSpeech:
         # remove whitespaces and the period at the end
         return text.strip().lower()[0:-1]
 
-    def start_recognizing(self):
+    async def start_recognizing(self):
         logging.info("Starting the recognition...")
 
         while True:
+            # need to make this async to do multiple commands
             result = self.speech_recognizer.recognize_once()
 
             try:
@@ -46,7 +48,7 @@ class RecognizeSpeech:
                         os._exit(0)
 
                     # make the move with pyautogui
-                    make_move(recognized_text)
+                    await make_move(recognized_text)
 
                 elif result.reason == speech_sdk.ResultReason.NoMatch:
                     logging.info(
@@ -77,4 +79,4 @@ class RecognizeSpeech:
 
 if __name__ == "__main__":
     recognize_speech_obj = RecognizeSpeech()
-    recognize_speech_obj.start_recognizing()
+    asyncio.run(recognize_speech_obj.start_recognizing())

@@ -1,36 +1,43 @@
 from pyautogui import press, keyDown, keyUp
 from typing import Callable
 import logging
-from time import sleep
+import asyncio
 from constants import COMMANDS_AUDIO_MOVE_MAPPING
 
 
-def move_ship_left(sleep_interval=0.07):
-    keyDown("left")
-    sleep(sleep_interval)
-    keyUp("left")
+async def ahold(key, sleep_interval=0.07):
+    keyDown(key)
+    await asyncio.sleep(sleep_interval)
+    keyUp(key)
 
 
-def move_ship_right(sleep_interval=0.07):
-    keyDown("right")
-    sleep(sleep_interval)
-    keyUp("right")
+async def apress(key, presses=2, interval=0.0):
+    press(key, presses, interval)
+    await asyncio.sleep(0)
 
 
-def move_ship_left_corner():
-    move_ship_left(1)
+async def move_ship_left(sleep_interval=0.07):
+    await ahold("left", sleep_interval)
 
 
-def move_ship_right_corner():
-    move_ship_right(1)
+async def move_ship_right(sleep_interval=0.07):
+    await ahold("right", sleep_interval)
 
 
-def shoot():
-    press("space")
+async def move_ship_left_corner():
+    await asyncio.create_task(move_ship_left(sleep_interval=0.9))
 
 
-def rapid_fire():
-    press("space", presses=100, interval=0.1)
+async def move_ship_right_corner():
+    await asyncio.create_task(move_ship_right(sleep_interval=0.9))
+
+
+async def shoot():
+    await asyncio.create_task(apress("space"))
+
+
+async def rapid_fire():
+    await asyncio.create_task(apress("space", presses=100, interval=0.1))
 
 
 def do_nothing():
@@ -58,7 +65,7 @@ def process_text(text: str):
     return method_name
 
 
-def make_move(text: str):
+async def make_move(text: str):
     """Get a single command name from the transcribed text and call the corresponding command
 
     Args:
@@ -71,7 +78,7 @@ def make_move(text: str):
 
     logging.info(f"Executing - {callable_action_method_name}")
     try:
-        callable_action_method()
+        await callable_action_method()
     except Exception as e:
         logging.error(f"Error executing {callable_action_method_name} \n{e}")
     else:

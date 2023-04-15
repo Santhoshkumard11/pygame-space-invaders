@@ -5,6 +5,7 @@
     "blit",
     "enemylaser",
     "groupcollide",
+    "KEYDOWN",
     "leftbullet",
     "mysterykilled",
     "pygame",
@@ -13,5 +14,6 @@
     "xpos",
     "ypos"
   ],
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "python.analysis.typeCheckingMode": "basic"
 }

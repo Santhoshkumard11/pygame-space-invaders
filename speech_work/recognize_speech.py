@@ -45,6 +45,7 @@ class RecognizeSpeech:
                         logging.warning("Exiting the process!!")
                         os._exit(0)
 
+                    # make the move with pyautogui
                     make_move(recognized_text)
 
                 elif result.reason == speech_sdk.ResultReason.NoMatch:

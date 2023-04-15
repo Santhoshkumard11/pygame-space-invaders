@@ -1,15 +1,36 @@
-from pyautogui import press
-from constants import COMMANDS_AUDIO_MOVE_MAPPING
+from pyautogui import press, keyDown, keyUp
 from typing import Callable
 import logging
+from time import sleep
+from constants import COMMANDS_AUDIO_MOVE_MAPPING
 
 
-def move_ship_left():
-    press("left")
+def move_ship_left(sleep_interval=0.07):
+    keyDown("left")
+    sleep(sleep_interval)
+    keyUp("left")
 
 
-def move_ship_right():
-    press("right")
+def move_ship_right(sleep_interval=0.07):
+    keyDown("right")
+    sleep(sleep_interval)
+    keyUp("right")
+
+
+def move_ship_left_corner():
+    move_ship_left(1)
+
+
+def move_ship_right_corner():
+    move_ship_right(1)
+
+
+def shoot():
+    press("space")
+
+
+def rapid_fire():
+    press("space", presses=100, interval=0.1)
 
 
 def do_nothing():
@@ -26,25 +47,28 @@ def process_text(text: str):
         str: method name to the corresponding command
     """
 
+    # if nothing matches call do_nothing
+    method_name = "do_nothing"
+
     for action, method_name in COMMANDS_AUDIO_MOVE_MAPPING.items():
         if text.find(action) != -1:
-            return method_name
+            method_name = method_name
+            break
 
-    # if nothing matches call do_nothing
-    return "do_nothing"
+    return method_name
 
 
-def make_move(text):
+def make_move(text: str):
     """Get a single command name from the transcribed text and call the corresponding command
 
     Args:
         text (str): text from Azure Cognitive Service
     """
 
-    text: str = process_text(text)
+    callable_action_method_name = process_text(text)
 
-    callable_action_method: Callable = globals()[text]
-    callable_action_method_name = callable_action_method.__name__
+    callable_action_method: Callable = globals()[callable_action_method_name]
+
     logging.info(f"Executing - {callable_action_method_name}")
     try:
         callable_action_method()

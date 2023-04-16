@@ -31,12 +31,17 @@ class RecognizeSpeech:
         # remove whitespaces and the period at the end
         return text.strip().lower()[0:-1]
 
+    async def recognize_voice(self):
+        result = self.speech_recognizer.recognize_once()
+        await asyncio.sleep(0)
+        return result
+
     async def start_recognizing(self):
         logging.info("Starting the recognition...")
 
         while True:
             # need to make this async to do multiple commands
-            result = self.speech_recognizer.recognize_once()
+            result = await self.recognize_voice()
 
             try:
                 # Checks result.

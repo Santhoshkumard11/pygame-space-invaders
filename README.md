@@ -17,3 +17,6 @@ Let's build the space invaders in Python
  
 ### Web
 `pygbag .\space_invaders`
+
+### Docker
+`docker run -p 8000:8000 space-invaders`

@@ -5,4 +5,6 @@ COMMANDS_AUDIO_MOVE_MAPPING = {
     "right": "move_ship_right",
     "rapid fire": "rapid_fire",
     "shoot": "shoot",
+    "start": "start_game",
+    "pause": "pause_game",
 }

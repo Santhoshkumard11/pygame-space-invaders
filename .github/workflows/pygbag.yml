@@ -1,6 +1,9 @@
-name: pygbag_build
-on: [workflow_dispatch]
-
+name: Build Space Invaders with Pygbag
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build-pygbag:

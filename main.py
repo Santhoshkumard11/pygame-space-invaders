@@ -66,6 +66,7 @@ IMAGES = {
 BLOCKERS_POSITION = 450
 ENEMY_DEFAULT_POSITION = 65  # Initial value for a new game
 ENEMY_MOVE_DOWN = 35
+DIFFICULTY_LEVEL = 5  # a value between 1 to 10 - number of enemy bullets
 
 
 class Ship(sprite.Sprite):

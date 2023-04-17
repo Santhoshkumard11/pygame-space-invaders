@@ -32,6 +32,8 @@ BASE_PATH = abspath(dirname(__file__))
 FONT_PATH = BASE_PATH + "/fonts/"
 IMAGE_PATH = BASE_PATH + "/images/"
 SOUND_PATH = BASE_PATH + "/sounds/"
+SOUND_FORMAT = "ogg"
+
 
 # Colors (R, G, B)
 WHITE = (255, 255, 255)
@@ -250,7 +252,7 @@ class Mystery(sprite.Sprite):
         self.moveTime = 25000
         self.direction = 1
         self.timer = time.get_ticks()
-        self.mysteryEntered = mixer.Sound(SOUND_PATH + "mysteryentered.ogg")
+        self.mysteryEntered = mixer.Sound(SOUND_PATH + f"mysteryentered.{SOUND_FORMAT}")
         self.mysteryEntered.set_volume(0.3)
         self.playSound = True
 
@@ -439,12 +441,12 @@ class SpaceInvaders(object):
             "shipexplosion",
         ]:
             self.sounds[sound_name] = mixer.Sound(
-                SOUND_PATH + "{}.ogg".format(sound_name)
+                SOUND_PATH + "{}.{}".format(sound_name, SOUND_FORMAT)
             )
             self.sounds[sound_name].set_volume(0.2)
 
         self.musicNotes = [
-            mixer.Sound(SOUND_PATH + "{}.ogg".format(i)) for i in range(4)
+            mixer.Sound(SOUND_PATH + "{}.{}".format(i, SOUND_FORMAT)) for i in range(4)
         ]
         for sound in self.musicNotes:
             sound.set_volume(0.5)
@@ -475,7 +477,7 @@ class SpaceInvaders(object):
             if e.type == KEYDOWN:
                 if e.key == K_SPACE:
                     if len(self.bullets) == 0 and self.shipAlive:
-                        if self.score < 100:
+                        if self.score <= 100:
                             bullet = Bullet(
                                 self.player.rect.x + 23,
                                 self.player.rect.y + 5,
@@ -487,7 +489,7 @@ class SpaceInvaders(object):
                             self.bullets.add(bullet)
                             self.allSprites.add(self.bullets)
                             self.sounds["shoot"].play()
-                        elif self.score > 100 and self.score < 200:
+                        elif self.score > 100 and self.score <= 200:
                             leftbullet = Bullet(
                                 self.player.rect.x + 8,
                                 self.player.rect.y + 5,
